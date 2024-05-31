@@ -8,6 +8,11 @@ RUN npm ci
 
 COPY . .
 
-CMD [ "executable" ]
+RUN npm run build
+
+CMD node dist/src/main.js
 
 EXPOSE $PORT
+
+
+# docker run -e PORT=8080 -p $PORT:$PORT --expose $PORT -it your-image-name

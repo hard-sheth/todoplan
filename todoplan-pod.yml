@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: todoplan-secret
+  namespace: development
+  labels:
+    tier: backend
+    app: todo-plan-app
+data:
+  DB_URL: bW9uZ29kYjovL2xvY2FsaG9zdDoyNzAxNy90b2RvT3BlcmF0aW9u
+  PORT: NDAwMA==
+---
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: todo-plan-deployment
+  namespace: development
