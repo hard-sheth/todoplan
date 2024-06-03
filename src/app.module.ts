@@ -19,12 +19,12 @@ import {
   imports: [
     TodoModule,
     PlansModule,
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.development.env',
-      cache: true,
-    }),
-    MongooseModule.forRoot(process.env.DB_URL, { retryAttempts: 3 }),
+    // ConfigModule.forRoot({
+    //   isGlobal: true,
+    //   envFilePath: '.development.env',
+    //   cache: true,
+    // }),
+    MongooseModule.forRoot(`mongodb+srv://hardsheth:gNT7PIcvx2Q5aFA4@cluster0.radto5a.mongodb.net/`, { retryAttempts: 3 }),
     MongooseModule.forFeature([{ name: HttpLog.name, schema: HttpLogSchema }]),
     TaskModule,
     HttpCronlogModule,
