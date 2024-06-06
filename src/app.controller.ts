@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import { Body, Controller, Get, Post, Res } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { Response } from "express";
+=======
+import { Controller, Get } from '@nestjs/common';
+import { AppService } from './app.service';
+>>>>>>> origin/main
 
 @Controller()
 export class AppController {
@@ -10,6 +15,7 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+<<<<<<< HEAD
   @Post("login")
   async login(
     @Body() body: any,
@@ -30,4 +36,6 @@ export class AppController {
     });
     response.json({ messge: res.message });
   }
+=======
+>>>>>>> origin/main
 }

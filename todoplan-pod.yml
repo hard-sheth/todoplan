@@ -1,0 +1,133 @@
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: todoplan-secret
+#   namespace: development
+#   labels:
+#     tier: backend
+#     app: todo-plan-app
+# data:
+#   DB_URL: bW9uZ29kYjovL2xvY2FsaG9zdDoyNzAxNy90b2RvT3BlcmF0aW9u
+#   PORT: NDAwMA==
+---
+# apiVersion: v1
+# kind: Deployment
+# metadata:
+#   name: todo-plan-deployment
+#   namespace: development
+---
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: todoplans
+# spec:
+#   containers:
+#   - name: todoplans
+#     image: hardshethsa/todo-plan:v5
+#     ports:
+#     - containerPort: 4000
+
+# Pod Exmample
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: todoplans
+# spec:
+#   containers:
+#   - name: todoplans
+#     image: hardshethsa/todo-plan:v6
+#     ports:
+#     - containerPort: 4000
+---
+# Normal/clusterIp service Example
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todoplans-deployment
+  labels:
+    app: todoplans
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: todoplans
+  template:
+    metadata:
+      labels:
+        app: todoplans
+    spec:
+      containers:
+      - name: todo
+        image: hardshethsa/todo-plan:v6
+        ports:
+        - containerPort: 4000
+---
+# Node port Based service example
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: todoplan-service
+spec:
+  type: NodePort
+  selector:
+    app: todoplans
+  ports:
+    - port: 80
+      targetPort: 4000
+      nodePort: 30007
+---
+# Loand Balancing based Ip
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: todoplan-service
+# spec:
+#   type: LoadBalancer
+#   selector:
+#     app: todoplans
+#   ports:
+#     - port: 80
+#       targetPort: 4000
+#       nodePort: 30007
+
+-----
+
+# Addeing Ingress In these file
+
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: minimal-ingress
+#   annotations:
+#     nginx.ingress.kubernetes.io/rewrite-target: /
+# spec:
+#   ingressClassName: nginx-example
+#   rules:
+#   - http:
+#       paths:
+#       - path: /testpath
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: todoplan-service
+#             port:
+#               number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-wildcard-host
+spec:
+  rules:
+  - host: "foo.bar.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/bar"
+        backend:
+          service:
+            name: todoplan-service
+            port:
+              number: 80

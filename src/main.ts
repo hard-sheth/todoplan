@@ -20,7 +20,7 @@ async function bootstrap() {
     }),
   );
   const options = new DocumentBuilder()
-  .addOAuth2()
+  // .addOAuth2()
 
     .setTitle('Test Service For Login')
     .setDescription('These is the testing backing application which we developed to learn something in nestjs.')
@@ -41,6 +41,6 @@ async function bootstrap() {
     deepScanRoutes: true,
   });
   SwaggerModule.setup('api/doc', app, document);
-  await app.listen(4000);
+  await app.listen(process.env.PORT||4000);
 }
 bootstrap();
