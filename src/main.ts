@@ -21,7 +21,6 @@ async function bootstrap() {
   );
   const options = new DocumentBuilder()
   // .addOAuth2()
-
     .setTitle('Test Service For Login')
     .setDescription('These is the testing backing application which we developed to learn something in nestjs.')
     .setVersion('1.0')

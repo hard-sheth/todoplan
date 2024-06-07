@@ -15,7 +15,7 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Pagination } from 'src/task/dto/create-task.dto';
 // import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 // import { Request } from 'express';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('todo')
 @ApiTags('todo')
@@ -27,6 +27,7 @@ export class TodoController {
     return this.todoService.create(createTodoDto);
   }
   // @ApiCookieAuth()
+  @ApiBearerAuth('bearer')
   @Get()
   findAll(@Query() searchParam: Pagination) {
     return this.todoService.findAll(searchParam);

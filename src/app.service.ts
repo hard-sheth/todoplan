@@ -9,22 +9,23 @@ export class AppService {
     private configService: ConfigService
   ) {}
   private ACCESS_SECRETKEY = this.configService.get("ACCESS_SECRETKEY");
-  private REFREWSH_SECRETKEY = this.configService.get("REFREWSH_SECRETKEY");
+  private REFRESH_SECRETKEY = this.configService.get("REFRESH_SECRETKEY");
   getHello(): string {
     return "Hello World!";
   }
-  async login(user): Promise<object> {
+  async login(user): Promise<any> {
     const data = user;
     console.log(
       this.ACCESS_SECRETKEY,
       // process.env.ACCESS_SECRETKEY,
       'this.ACCESS_SECRETKEY',
-      // process.env.REFREWSH_SECRETKEY,
-      this.REFREWSH_SECRETKEY,
-      'this.REFREWSH_SECRETKEY'
+      // process.env.REFRESH_SECRETKEY,
+      this.REFRESH_SECRETKEY,
+      'this.REFRESH_SECRETKEY',
+      Array.isArray(data),
     );    
     const accessToken = this.jwtService.sign(data, {secret: this.ACCESS_SECRETKEY});
-    const refreshToken = this.jwtService.sign(data, {secret: this.REFREWSH_SECRETKEY});
+    const refreshToken = this.jwtService.sign(data, {secret: this.REFRESH_SECRETKEY});
     return {
       message: `Login SuccessFull`,
       accessToken,
