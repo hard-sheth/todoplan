@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Module, NestModule } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -16,30 +15,11 @@ import {
   HttpLogSchema,
 } from "./utils/http-cronlog/entities/httplog.entity";
 import { JwtModule } from "@nestjs/jwt";
-=======
-import { Module, NestModule } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TodoModule } from './todo/todo.module';
-import { PlansModule } from './plans/plans.module';
-import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
-import { TaskModule } from './task/task.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { RequestLoggingInterceptor } from './utils/commonRequestLog';
-import { HttpCronlogModule } from './utils/http-cronlog/http-cronlog.module';
-import { HttpCronlogService } from './utils/http-cronlog/http-cronlog.service';
-import {
-  HttpLog,
-  HttpLogSchema,
-} from './utils/http-cronlog/entities/httplog.entity';
->>>>>>> origin/main
 
 @Module({
   imports: [
     TodoModule,
     PlansModule,
-<<<<<<< HEAD
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ".env.development",
@@ -56,17 +36,6 @@ import {
         secret: process.env.ACCESS_SECRETKEY,
       }),
     }),
-=======
-    // ConfigModule.forRoot({
-    //   isGlobal: true,
-    //   envFilePath: '.development.env',
-    //   cache: true,
-    // }),
-    MongooseModule.forRoot(`mongodb+srv://hardsheth:gNT7PIcvx2Q5aFA4@cluster0.radto5a.mongodb.net/`, { retryAttempts: 3 }),
-    MongooseModule.forFeature([{ name: HttpLog.name, schema: HttpLogSchema }]),
-    TaskModule,
-    HttpCronlogModule,
->>>>>>> origin/main
   ],
   controllers: [AppController],
   providers: [
