@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-node_modules
-dist
-.env.*
-*.zip
-=======
 # compiled output
 /dist
 /node_modules
@@ -62,4 +56,5 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 *.spec.ts
->>>>>>> origin/main
+.env.*
+*.zip
