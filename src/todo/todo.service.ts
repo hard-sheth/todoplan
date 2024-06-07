@@ -26,15 +26,14 @@ export class TodoService {
       const noRecords = searchParam.record || 5;
       let skipRecords = searchParam.skip || 0;
       const page = searchParam.page || 0;
-      const sortingArray: any = {
-        _id: -1,
-      };
-      if (searchParam.sort?.length > 0) {
-        for (const sortParam of searchParam.sort) {
-          sortingArray[sortParam] =
+      const sortParam = searchParam.sort|| '_id';
+      let sortingArray: any = {};
+      // if (searchParam.sort?.length > 0) {
+      //   for (const sortParam of searchParam.sort) {
+          sortingArray[sortParam.toLocaleLowerCase()] =
             searchParam.sortby === Sorttype.Asc ? 1 : -1;
-        }
-      }
+      //   }
+      // }
       skipRecords = skipRecords + page * noRecords;
       const listAllTask = await this.TodoModel.aggregate([
         {

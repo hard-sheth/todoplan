@@ -90,18 +90,19 @@ export class Pagination {
   page?: number;
 
   @IsOptional()
-  @IsArray()
+  @Type(() => String)
+  // @IsArray()
   @ApiProperty({
-    description: 'Enter properties which multiple columns/property name',
-    required: false,
-    name: 'sort[]',
-    type: 'array',
-    example: ['_id'],
+    // description: 'Enter properties which multiple columns/property name',
+    // required: false,
+    // name: 'sort[]',
+    // type: 'array',
+    example: '_id',
   })
-  sort?: string[];
+  sort?: string;
 
   @IsOptional()
-  // @Type(() => Number)
+  // @Type(() => String)
   @IsEnum(Sorttype)
   @ApiProperty({
     description: 'Enter Asc or desc should property',
@@ -110,5 +111,5 @@ export class Pagination {
     name: 'sortby',
     enum: Sorttype,
   })
-  sortby?: Sorttype;
+  sortby?: string|String|Sorttype;
 }

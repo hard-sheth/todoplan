@@ -7,11 +7,14 @@ import {
   Param,
   Put,
   Query,
+  // Req,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Pagination } from 'src/task/dto/create-task.dto';
+// import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
+// import { Request } from 'express';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('todo')
@@ -23,7 +26,7 @@ export class TodoController {
   create(@Body() createTodoDto: CreateTodoDto) {
     return this.todoService.create(createTodoDto);
   }
-
+  // @ApiCookieAuth()
   @Get()
   findAll(@Query() searchParam: Pagination) {
     return this.todoService.findAll(searchParam);

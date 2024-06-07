@@ -2,12 +2,17 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    // logger: ['error', 'warn'],
+    logger: ['error', 'warn','log'],
   });
-  app.enableCors();
+    app.enableCors({
+      credentials: true,
+      origin:['http://localhost:3000']
+    });
+  app.use(cookieParser());
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe({
@@ -15,8 +20,10 @@ async function bootstrap() {
     }),
   );
   const options = new DocumentBuilder()
-    .setTitle('To Do Task')
-    .setDescription('Task,todo related APIs for practice')
+  // .addOAuth2()
+
+    .setTitle('Test Service For Login')
+    .setDescription('These is the testing backing application which we developed to learn something in nestjs.')
     .setVersion('1.0')
     .addBearerAuth(
       {
