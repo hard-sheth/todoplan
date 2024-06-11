@@ -1,5 +1,6 @@
-import {
+  import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -10,10 +11,13 @@ import mongoose, { Model } from 'mongoose';
 import { Todo } from './entities/todo.entity';
 import { Pagination, Sorttype } from 'src/task/dto/create-task.dto';
 import { NotFoundMessage } from 'src/utils/constant';
+import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class TodoService {
-  constructor(@InjectModel(Todo.name) private TodoModel: Model<Todo>) {}
+  public csrftoken 
+  constructor(@InjectModel(Todo.name) private TodoModel: Model<Todo>,@Inject(CACHE_MANAGER) private cacheManager: Cache,private config:ConfigService) {}
 
   async create(createTodoDto: CreateTodoDto) {
     const createNewTodo = new this.TodoModel({ ...createTodoDto });
@@ -26,6 +30,11 @@ export class TodoService {
       const noRecords = searchParam.record || 5;
       let skipRecords = searchParam.skip || 0;
       const page = searchParam.page || 0;
+      const value = await this.cacheManager.get(`todo`);
+      console.log(value,'value');      
+      if(value){
+        return value;
+      }
       const sortParam = searchParam.sort|| '_id';
       let sortingArray: any = {};
       // if (searchParam.sort?.length > 0) {
@@ -72,10 +81,16 @@ export class TodoService {
 
   async findOne(id: string) {
     try {
+      const value = await this.cacheManager.get(id);
+      console.log(value,'value');      
+      if(value){
+        return value;
+      }
       const todoOne = await this.TodoModel.findById(id);
       if (!todoOne) {
         throw new Error(NotFoundMessage);
       }
+      await this.cacheManager.set(id, todoOne,);
       return todoOne;
     } catch (error) {
       if (error.message === NotFoundMessage)
@@ -136,7 +151,7 @@ export class TodoService {
     }
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} todo`;
   }
 }

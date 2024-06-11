@@ -2,7 +2,6 @@ import {
   MiddlewareConsumer,
   Module,
   NestModule,
-  RequestMethod,
 } from "@nestjs/common";
 import { TodoService } from "./todo.service";
 import { TodoController } from "./todo.controller";
@@ -11,6 +10,7 @@ import { Todo, TodoSchema } from "./entities/todo.entity";
 import { CookieSession } from "src/utils/cookiesession.middleware";
 import { JwtModule } from "@nestjs/jwt";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { ThrottlerModule } from "@nestjs/throttler";
 
 @Module({
   imports: [
@@ -19,8 +19,19 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        secret: process.env.ACCESS_SECRETKEY,
+        secret: configService.get('ACCESS_SECRETKEY'),
       }),
+    }),
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => [
+        {
+          ttl: 60000,
+          limit: 5,
+          name: 'shorttime',
+        },
+      ],
     }),
   ],
   controllers: [TodoController],
@@ -30,6 +41,6 @@ export class TodoModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(CookieSession)
-      .forRoutes({ path: "todo", method: RequestMethod.GET });
+      // .forRoutes({ path: "todo", method: RequestMethod.GET });
   }
 }

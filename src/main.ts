@@ -6,12 +6,12 @@ import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    logger: ['error', 'warn','log'],
+    logger: ['error', 'warn', 'log'],
   });
-    app.enableCors({
-      credentials: true,
-      origin:['http://localhost:3000']
-    });
+  app.enableCors({
+    credentials: true,
+    origin: ['http://localhost:3000'],
+  });
   app.use(cookieParser());
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
@@ -20,9 +20,11 @@ async function bootstrap() {
     }),
   );
   const options = new DocumentBuilder()
-  // .addOAuth2()
+    // .addOAuth2()
     .setTitle('Test Service For Login')
-    .setDescription('These is the testing backing application which we developed to learn something in nestjs.')
+    .setDescription(
+      'These is the testing backing application which we developed to learn something in nestjs.',
+    )
     .setVersion('1.0')
     .addBearerAuth(
       {
@@ -40,6 +42,6 @@ async function bootstrap() {
     deepScanRoutes: true,
   });
   SwaggerModule.setup('api/doc', app, document);
-  await app.listen(process.env.PORT||4000);
+  await app.listen(process.env.PORT || 4000);
 }
 bootstrap();
