@@ -131,3 +131,11 @@ spec:
             name: todoplan-service
             port:
               number: 80
+
+
+
+
+
+
+
+# kubectl apply --filename=todoplan-pod.yml
